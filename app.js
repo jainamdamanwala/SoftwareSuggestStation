@@ -1,43 +1,71 @@
-const express = require('express');
+const express = require("express");
+const { engine } = require('express-handlebars');
 const app = express();
-const static = express.static(__dirname + '/public');
+const cookieParser = require('cookie-parser');
 const configRoutes = require('./routes');
-const exphbs = require('express-handlebars');
-
-const handlebarsInstance = exphbs.create({
-  defaultLayout: 'main',
-  helpers: {
-    asJSON: (obj, spacing) => {
-      if (typeof spacing === 'number')
-        return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
-
-      return new Handlebars.SafeString(JSON.stringify(obj));
-    }
-  }
-});
-
-const rewriteUnsupportedBrowserMethods = (req, res, next) => {
-
-  if (req.body && req.body._method) {
-    req.method = req.body._method;
-    delete req.body._method;
-  }
-
-  next();
-};
-
-app.use;
-app.use('/public', static);
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(rewriteUnsupportedBrowserMethods);
+//const exphbs = require('express-handlebars');
+const session = require('express-session');
 
-app.engine('handlebars', handlebarsInstance.engine);
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use("/public", express.static(__dirname + "/public"));
+app.engine('handlebars', engine({
+    defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
-configRoutes(app);
-
-app.listen(3000, () => {
-  console.log("We've now got a server!");
-  console.log('Your routes will be running on http://localhost:3000');
+app.use(
+    session({
+      name: 'AuthCookie',
+      secret: "This is a secret.. shhh don't tell anyone",
+      saveUninitialized: true,
+      resave: false,
+      cookie: { maxAge: 60000 }
+    })
+  );
+app.use('/private', (req, res, next) => {
+    if (!req.session.user) {
+        res.status(403).render('login/login',{error:"User is not logged in into system !"});
+    } else {
+        next();
+    }
 });
+
+app.use('/login', (req, res, next) => {
+    if (req.session.user) {
+        return res.redirect('/private');
+    } else {
+        next();
+    }
+});
+
+app.use('/signup', (req, res, next) => {
+    if (req.session.user) {
+        return res.redirect('/');
+    } else {
+        next();
+    }
+});
+
+app.use(async (req, res, next) => {
+    //console.log(`[${new Date().toUTCString()}]: ${req.method} ${req.originalUrl}  ${isLoggedIn(req) ? '(Authenticated)' : '(Not Authenticated)'}`);
+    const now = new Date();
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 1);
+
+    res.cookie('lastAccessed', now.toString(), { expires: expiresAt });
+    res.cookie('Shubham', 'Jiyani');
+    next();
+  });
+const isLoggedIn = function (req) {
+    return req.session.user;
+};
+
+configRoutes(app);
+app.listen(3000, () => {
+    console.log("We've now got a server!");
+    console.log('Your routes will be running on http://localhost:3000');
+  });

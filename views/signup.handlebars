@@ -1,0 +1,23 @@
+<div class="login">
+  <h1>Register into App</h1>
+<main>
+    <form id="signup-form" method="post" action="/signup" >
+        <label for="username">Username: </label>
+        <input id="username" type="text" name="username" placeholder="username" />
+        <br/>
+        <label for="password">Password: </label>
+        <input id="password" type="password" name="password" placeholder="password" />
+        <br/>
+        <label for="submit"></label>
+        <button id="submit" type="submit" value="submit">Go!</button>
+    </form>
+    {{#if error}}
+        <p>
+            {{error}}
+        </p>
+    {{/if}}
+</main>
+</div>
+<br/>
+<div class="login-help">
+<a class="homepage" href="/">Already have an account? Click here to log-in</a></div>
