@@ -11,6 +11,9 @@ var app = express();
 app.set('views', path.join(__dirname, 'server/views/pages'));
 app.set('view engine', 'hbs');
 
+// Register partial folder
+hbs.registerPartials(path.join(__dirname, 'server/views/partials'))
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

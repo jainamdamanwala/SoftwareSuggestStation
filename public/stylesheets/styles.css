@@ -1,0 +1,32 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* Sticky footer styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+body > .container {
+    padding-top: 60px;
+}
+
+nav {
+    background-color: #a2a6aa;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px;
+    background-color: #c5d4e2;
+}

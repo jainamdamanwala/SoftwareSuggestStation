@@ -2,22 +2,23 @@
 <html>
 
 <head>
-    <title>
-        My App
-    </title>
+    <title>{{error.status}} :(</title>
     {{> stylesheet }}
 </head>
 
 <body>
     {{> header }}
+
     <div class="container">
         <div class="page-header m-t-1">
-            <h1>
-                My App
+            <h1>Sorry :(
             </h1>
+            <h2>
+               {{error.status}}
+            </h2>
+            <pre>{{error.stack  }}</pre>
         </div>
-        <p class="lead">Welcome to My App
-        </p>
+
     </div>
     {{> footer}}
     {{> javascript }}
