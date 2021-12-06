@@ -1,6 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var passport = require('passport');
+var flash = require('connect-flash');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')
 
 // We are using handlebase view engine
 var hbs = require('hbs');
@@ -14,12 +21,52 @@ app.set('view engine', 'hbs');
 // Register partial folder
 hbs.registerPartials(path.join(__dirname, 'server/views/partials'))
 
+var dbConfig = require('./server/config/config.js');
+mongoose.connect(dbConfig.url);
+mongoose.connection.on('error', function () {
+	console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+});
+
+// Passport configuration
+require('./server/config/passport')(passport);
+
+// required for passport secret for session
+app.use(session({
+	secret: 'my-secret-text',
+	saveUninitialized: true,
+	resave: true,
+	//store session on MongoDB using express-session + connect mongo,
+	store: MongoStore.create({
+		mongoUrl: dbConfig.url,
+		collectionName: 'sessions'
+	}),
+}));
+
+// Init passport authentication
+app.use(passport.initialize());
+// persistent login sessions
+app.use(passport.session());
+
+// Global variable to check loggedin or not
+app.use(function (req, res, next) {
+	app.locals.isLoggedIn = req.isAuthenticated();
+
+	if (app.locals.isLoggedIn) {
+		app.locals.userName = req.user.local.name;
+		app.locals.isAdmin = req.user.role == 0;
+	}
+	next();
+});
+
+app.use(flash());
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Our Routes
 var indexRouter = require('./server/routes/index');
-
 // Our Paths
 app.use('/', indexRouter);
 
