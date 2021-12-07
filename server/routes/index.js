@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var gravatar = require('gravatar');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -21,7 +22,7 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local-login', {
 	failureRedirect: '/login',
 	failureFlash: true,
-    successRedirect:'/'
+  successRedirect:'/profile'
 }));
 
 /* GET Signup */
@@ -51,5 +52,16 @@ function isLoggedIn(req, res, next) {
 		return next();
 	res.redirect('/login');
 }
+
+/* GET Profile page. */
+router.get('/profile', isLoggedIn, function (req, res, next) {
+	res.render('profile', {
+		title: 'Profile Page',
+		user: req.user,
+		avatar: gravatar.url(req.user.email, {
+			s: '100', r: 'x', d: 'retro'
+		}, true)
+	});
+});
 
 module.exports = router;
