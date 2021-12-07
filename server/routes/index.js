@@ -5,7 +5,7 @@ var gravatar = require('gravatar');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	res.render('index', {
+	res.render('main', {
 		title: 'Welcome to software suggestion'
 	});
 });
