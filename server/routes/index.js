@@ -22,7 +22,7 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local-login', {
 	failureRedirect: '/login',
 	failureFlash: true,
-    successRedirect:'/profile'
+  successRedirect:'/profile'
 }));
 
 /* GET Signup */
@@ -63,6 +63,5 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
 		}, true)
 	});
 });
-
 
 module.exports = router;
