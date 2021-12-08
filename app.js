@@ -37,7 +37,6 @@ var hbs = exphbs.create({
 
 var app = express();
 
-// view engine setup
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', 'server/views/pages');
