@@ -33,11 +33,10 @@ var hbs = exphbs.create({
 			return options.inverse(this);
 		}
 	}
-})
+});
 
 var app = express();
 
-// view engine setup
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', 'server/views/pages');
@@ -89,8 +88,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Our Routes
 var indexRouter = require('./server/routes/index');
+var softwareRouter = require('./server/routes/software');
+
 // Our Paths
 app.use('/', indexRouter);
+app.use('/softwares', softwareRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
