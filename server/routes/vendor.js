@@ -1,0 +1,12 @@
+var express = require('express');
+var router = express.Router();
+
+var vendorController = require('../data/vendor');
+
+router.get('/', vendorController.hasAuthorization,
+    vendorController.listSoftwares);
+
+router.post('/', vendorController.hasAuthorization,
+    vendorController.createSoftware);
+
+module.exports = router;
