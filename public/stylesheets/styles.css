@@ -88,3 +88,18 @@ nav {
 .card-text {
     height: 60px;
 }
+
+.developer-names {
+    margin-top: 20px;
+    margin-left: -23px;
+}
+
+.additional-details {
+    margin-top: 30px;
+}
+
+.contact-us-input {
+    margin-top: 10px;
+    width: 70%;
+    margin-left: 145px;
+}
