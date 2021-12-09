@@ -71,6 +71,41 @@ exports.getSoftwareById = function (req, res) {
     });
 }
 
+exports.compareSoftware = function (req, res) {
+    var softwareOne = req.query.softwareOne;
+    var softwareTwo = req.query.softwareTwo;
+
+    Software.findOne({ _id: softwareOne }).exec(function (error, software) {
+        if (error) {
+            return res.send(400, {
+                message: error
+            });
+        }
+
+        softwareOne = software;
+
+        Software.findOne({ _id: softwareTwo }).exec(function (error, software) {
+            if (error) {
+                return res.send(400, {
+                    message: error
+                });
+            }
+
+            softwareTwo = software;
+
+            res.render('compareSoftware', {
+                title: 'Compare Software Page',
+                softwareOne: softwareOne,
+                softwareTwo: softwareTwo,
+                gravatarOne: gravatar.url(softwareOne.name,
+                    { s: '80', r: 'x', d: 'retro' }, true),
+                gravatarTwo: gravatar.url(softwareTwo.name,
+                    { s: '80', r: 'x', d: 'retro' }, true)
+
+            });
+        });
+    });
+}
 
 exports.hasAuthorization = function (req, res, next) {
     if (req.isAuthenticated())
