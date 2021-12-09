@@ -87,10 +87,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Our Routes
 var indexRouter = require('./server/routes/index');
 var softwareRouter = require('./server/routes/software');
+var commentsRouter = require('./server/routes/comment');
+
 
 // Our Paths
 app.use('/', indexRouter);
 app.use('/softwares', softwareRouter);
+app.use('/comments', commentsRouter);
 
 
 // catch 404 and forward to error handler
