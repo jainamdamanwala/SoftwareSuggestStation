@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var gravatar = require('gravatar');
+var User = require('../models/user');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -24,9 +25,21 @@ router.get('/login', function (req, res, next) {
 /* POST login */
 router.post('/login', passport.authenticate('local-login', {
 	failureRedirect: '/login',
-	failureFlash: true,
-  successRedirect:'/profile'
-}));
+	failureFlash: true
+}), function (req, res) {
+	User.findOne({ email: req.user.email }, function (err, user) {
+		if (err) {
+			res.redirect('/login');
+			return;
+		}
+
+		if (user.role == 1) {
+			res.redirect('/profile');
+		} else {
+			res.redirect('/vendor');
+		}
+	});
+});
 
 /* GET Signup */
 router.get('/signup', function (req, res) {

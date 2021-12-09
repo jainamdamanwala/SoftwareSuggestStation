@@ -72,7 +72,7 @@ app.use(function (req, res, next) {
 
 	if (app.locals.isLoggedIn) {
 		app.locals.userName = req.user.local.name;
-		app.locals.isAdmin = req.user.role == 0;
+		app.locals.isVendor = req.user.role == 0;
 	}
 	next();
 });
@@ -89,13 +89,14 @@ var indexRouter = require('./server/routes/index');
 var softwareRouter = require('./server/routes/software');
 var commentsRouter = require('./server/routes/comment');
 var contactUsRouter = require('./server/routes/contactUs')
+var vendorRouter = require('./server/routes/vendor');
 
 // Our Paths
 app.use('/', indexRouter);
 app.use('/softwares', softwareRouter);
 app.use('/comments', commentsRouter);
 app.use('/contactUs', contactUsRouter);
-
+app.use('/vendor', vendorRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -25,13 +25,17 @@
                     {{/unless}}
 
                     {{#if isLoggedIn}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
-                        </li>
+                        {{#unless isVendor}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/softwares">Softwares</a>
+                            </li>
+                        {{/unless}}
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/softwares">Softwares</a>
-                        </li>
+                        {{#if isVendor}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/vendor">Vendor</a>
+                            </li>
+                        {{/if}}
 
                         <li class="nav-item">
                             <a class="nav-link" href="/logout">Logout</a>
