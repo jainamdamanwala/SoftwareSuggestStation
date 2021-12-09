@@ -12,6 +12,9 @@ router.get('/', function (req, res, next) {
 
 /* GET login page. */
 router.get('/login', function (req, res, next) {
+	if (req.isAuthenticated())
+		res.redirect('/profile');
+
 	res.render('login', {
 		title: 'Login Page',
 		message: req.flash('loginMessage')

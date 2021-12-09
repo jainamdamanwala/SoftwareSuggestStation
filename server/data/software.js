@@ -50,7 +50,14 @@ exports.getSoftwareById = function (req, res) {
         return;
     }
 
-    Software.findOne({ _id: objId }).exec(function (error, data) {
+    Software.findOne({ _id: objId }).populate({
+        path: 'comments',
+        populate: {
+            path: 'user',
+            model: 'User'
+        },
+        options: { sort: { 'created': -1 } }
+    }).exec(function (error, data) {
         if (error) {
             console.log(error)
             return res.send(400, {
@@ -70,6 +77,7 @@ exports.getSoftwareById = function (req, res) {
         });
     });
 }
+
 
 exports.compareSoftware = function (req, res) {
     var softwareOne = req.query.softwareOne;
