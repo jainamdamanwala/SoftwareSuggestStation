@@ -1,10 +1,21 @@
 var Software = require('../models/software');
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 var gravatar = require('gravatar');
 
 // List top rated softwares
 exports.listTopItems = function (req, res) {
-    Software.find().sort('-rating').limit(10).exec(function (error, softwares) {
+    var sortQuery = req.query.sortByField;
+    var sortByOrder = -1;
+    var sortByfield = 'rating';
+    var sortDict = {};
+
+    if (['name', 'catagory', 'rating'].indexOf(sortQuery) != -1) {
+        sortByfield = sortQuery;
+        sortByOrder = sortQuery != 'rating' ? 1 : -1;
+    }
+    sortDict[sortByfield] = sortByOrder;
+
+    Software.find().sort(sortDict).exec(function (error, softwares) {
         if (error) {
             return res.send(400, {
                 message: error
@@ -21,10 +32,21 @@ exports.listTopItems = function (req, res) {
 
 // Search software
 exports.searchSoftware = function (req, res) {
-    var query = req.query
+    var sortQuery = req.query.sortByField;
+    var sortByOrder = -1;
+    var sortByfield = 'rating';
+    var sortDict = {};
 
-    Software.find({ tag: { $regex: "^" + query.searchQuery } })
-        .sort('-rating').exec(function (error, softwares) {
+    if (['name', 'catagory', 'rating'].indexOf(sortQuery) != -1) {
+        sortByfield = sortQuery;
+        sortByOrder = sortQuery != 'rating' ? 1 : -1;
+    }
+    sortDict[sortByfield] = sortByOrder;
+
+    var query = req.query.searchQuery
+
+    Software.find({ catagory: { $regex: "^" + query } })
+        .sort(sortDict).exec(function (error, softwares) {
             if (error) {
                 return res.send(400, {
                     message: error
@@ -34,7 +56,7 @@ exports.searchSoftware = function (req, res) {
             res.render('softwares', {
                 title: 'Software Page',
                 softwares: softwares,
-                searchQuery: query.searchQuery
+                searchQuery: query
             });
         });
 };
@@ -78,7 +100,6 @@ exports.getSoftwareById = function (req, res) {
     });
 }
 
-
 exports.compareSoftware = function (req, res) {
     var softwareOne = req.query.softwareOne;
     var softwareTwo = req.query.softwareTwo;
@@ -116,7 +137,7 @@ exports.compareSoftware = function (req, res) {
 }
 
 exports.hasAuthorization = function (req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated() && req.user.role == 1)
         return next();
     res.redirect('/login');
 };
