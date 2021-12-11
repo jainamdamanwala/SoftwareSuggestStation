@@ -1,10 +1,11 @@
 var Software = require('../models/software');
 var mongoose = require('mongoose')
 var gravatar = require('gravatar');
+var xss = require('xss')
 
 // List top rated softwares
 exports.listTopItems = function (req, res) {
-    var sortQuery = req.query.sortByField;
+    var sortQuery = xss(req.query.sortByField);
     var sortByOrder = -1;
     var sortByfield = 'rating';
     var sortDict = {};
@@ -32,7 +33,7 @@ exports.listTopItems = function (req, res) {
 
 // Search software
 exports.searchSoftware = function (req, res) {
-    var sortQuery = req.query.sortByField;
+    var sortQuery = xss(req.query.sortByField);
     var sortByOrder = -1;
     var sortByfield = 'rating';
     var sortDict = {};
@@ -43,7 +44,7 @@ exports.searchSoftware = function (req, res) {
     }
     sortDict[sortByfield] = sortByOrder;
 
-    var query = req.query.searchQuery
+    var query = xss(req.query.searchQuery)
 
     Software.find({ catagory: { $regex: "^" + query } })
         .sort(sortDict).exec(function (error, softwares) {
@@ -101,8 +102,8 @@ exports.getSoftwareById = function (req, res) {
 }
 
 exports.compareSoftware = function (req, res) {
-    var softwareOne = req.query.softwareOne;
-    var softwareTwo = req.query.softwareTwo;
+    var softwareOne = xss(req.query.softwareOne);
+    var softwareTwo = xss(req.query.softwareTwo);
 
     Software.findOne({ _id: softwareOne }).exec(function (error, software) {
         if (error) {

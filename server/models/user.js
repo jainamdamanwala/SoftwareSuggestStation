@@ -20,11 +20,11 @@ var userSchema = mongoose.Schema({
     role: { type: Number, enum: { VENDOR, USER }, default: USER }
 });
 
-userSchema.methods.generateHash = function(password) {
+userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-userSchema.methods.validPassword = function(password) {
+userSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var gravatar = require('gravatar');
-var User = require('../models/user');
+var User = require('../models/user')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -13,8 +13,13 @@ router.get('/', function (req, res, next) {
 
 /* GET login page. */
 router.get('/login', function (req, res, next) {
-	if (req.isAuthenticated())
-		res.redirect('/profile');
+	if  (req.isAuthenticated()) {
+		if (req.user.role == 1) {
+			res.redirect('/profile');
+		} else {
+			res.redirect('/vendor');
+		}
+	}
 
 	res.render('login', {
 		title: 'Login Page',

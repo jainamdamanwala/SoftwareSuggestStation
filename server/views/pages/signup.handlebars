@@ -11,6 +11,13 @@
 <body>
     {{> header }}
     <div class="container">
+        {{#if message.length }}
+            <div class="alert alert-warning" role="alert">
+                <strong>Error!</strong>
+                {{message}}
+            </div>
+        {{/if}}
+
         <form class="form-signin" action="/signup" method="post">
             <h2 class="form-signin-heading">Please signup</h2>
             <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name" required="">
