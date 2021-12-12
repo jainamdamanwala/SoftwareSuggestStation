@@ -37,6 +37,7 @@
 
             <div class="card col-md-6" style="margin-top: 10px;">
                 <ul class="list-group list-group-flush">
+                    <h5 style="margin-top: 10px;">Developed by</h5>
                     <ul class="developer-names">
                         <li>Shubham Jiyani</li>
                         <li>Yash Anghan</li>
@@ -93,7 +94,7 @@
         var email = document.getElementById("contact-us-email").value;
         var message = document.getElementById("contact-us-message").value;
 
-        return name && email && message;
+        return name.trim() && email.trim() && message.trim();
     }
 </script>
 

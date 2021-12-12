@@ -39,8 +39,15 @@
                     <li class="list-group-item">Tag: {{software.catagory}}</li>
                     <li class="list-group-item">Overall Rating: {{roundDecimal software.rating}}</li>
                     <li class="list-group-item">Developer: {{software.developerName}}</li>
-                    <li class="list-group-item">Subscription Price: {{software.subscriptionPrice}}</li>
+
+                    {{#ifIsZero software.subscriptionPrice}}
+                        <li class="list-group-item">Subscription Price:  Free </li>
+                    {{else}}
+                        <li class="list-group-item">Subscription Price:  ${{software.subscriptionPrice}} per month </li>
+                    {{/ifIsZero}}
+
                     <li class="list-group-item">Currently trending in {{software.catagory}}</li>
+                    <li class="list-group-item">Link: <a href="https://{{software.link}}", target="_blank">{{software.link}}</a></li>
                 </ul>
             </div>
 

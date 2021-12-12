@@ -18,9 +18,9 @@ exports.listSoftwares = function (req, res) {
 
 exports.createSoftware = function (req, res) {
     var newSoftware = new Software();
-
+    console.log(req.body)
     if (!(req.body.name && req.body.catagory && req.body.details &&
-        req.body.subscriptionPrice && req.body.developerName)) {
+        req.body.subscriptionPrice && req.body.developerName && req.body.link)) {
         return res.redirect('/vendor');
     }
 
@@ -29,6 +29,7 @@ exports.createSoftware = function (req, res) {
     newSoftware.details = req.body.details;
     newSoftware.developerName = req.body.developerName;
     newSoftware.subscriptionPrice = req.body.subscriptionPrice;
+    newSoftware.link = req.body.link.replace(/(^\w+:|^)\/\//, '');
 
     newSoftware.save(function (error) {
         return res.redirect('/vendor');
@@ -47,7 +48,7 @@ exports.updateSoftwarae = function (req, res) {
     var id = req.body.updateSoftwareId;
 
     if (!(req.body.name && req.body.catagory && req.body.details &&
-        req.body.subscriptionPrice && req.body.developerName)) {
+        req.body.subscriptionPrice && req.body.developerName && req.body.link)) {
         return res.redirect('/vendor');
     }
 
@@ -56,7 +57,8 @@ exports.updateSoftwarae = function (req, res) {
         developerName: req.body.developerName,
         subscriptionPrice: req.body.subscriptionPrice,
         catagory: req.body.catagory,
-        details: req.body.details
+        details: req.body.details,
+        link: req.body.link.replace(/(^\w+:|^)\/\//, '')
     }, function (errr, data) {
         return res.redirect('/vendor');
     });

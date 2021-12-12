@@ -21,7 +21,7 @@ git clone <this repo's http url>
 npm install
 
 # fill fake data in db
-node seed.js
+node tasks/seed.js
 
 # start the web server
 npm start

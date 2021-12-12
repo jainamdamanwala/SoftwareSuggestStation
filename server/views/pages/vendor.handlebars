@@ -64,8 +64,14 @@
                             </fieldset>
 
                             <fieldset class="form-group">
-                                <label for="new-software-price">Subscription price</label>
-                                <input id="new-software-price" type="number" name="subscriptionPrice" class="form-control" oninput="checkNewSoftwareContent()"
+                                <label for="new-software-price">Subscription price per month</label>
+                                <input id="new-software-price" type="number" min="0" name="subscriptionPrice" class="form-control" oninput="checkNewSoftwareContent()"
+                                    required="true">
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <label for="new-software-link">Official link</label>
+                                <input id="new-software-link" type="text" name="link" class="form-control" oninput="checkNewSoftwareContent()"
                                     required="true">
                             </fieldset>
                         </div>
@@ -122,7 +128,13 @@
 
                             <fieldset class="form-group">
                                 <label for="edit-software-price">Subscription price</label>
-                                <input id="edit-software-price" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" name="subscriptionPrice" class="form-control" oninput="checkEditSoftwareContent()"
+                                <input id="edit-software-price" type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="subscriptionPrice" class="form-control" oninput="checkEditSoftwareContent()"
+                                    required="true">
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <label for="edit-software-link">Official link</label>
+                                <input id="edit-software-link" type="text" name="link" class="form-control" oninput="checkEditSoftwareContent()"
                                     required="true">
                             </fieldset>
                         </div>
@@ -156,7 +168,7 @@
                     <td>{{roundDecimal rating}}</td>
                     <td>
                         <button class="btn btn-primary" data-target="#editSoftware" data-toggle="modal"
-                            onclick="setTempVar('{{this.id}}', '{{this.name}}', '{{this.catagory}}', '{{this.details}}', '{{this.developerName}}', '{{this.subscriptionPrice}}')">
+                            onclick="setTempVar('{{this.id}}', '{{this.name}}', '{{this.catagory}}', '{{this.details}}', '{{this.developerName}}', '{{this.subscriptionPrice}}', '{{this.link}}')">
                             Edit
                         </button>
                     </td>
@@ -177,13 +189,14 @@
 </body>
 
 <script>
-    function setTempVar(id, name, catagory, details, developerName, subscriptionPrice) {
+    function setTempVar(id, name, catagory, details, developerName, subscriptionPrice, link) {
         document.getElementById('updateSoftwareId').value = id;
         document.getElementById('edit-software-name').value = name;
         document.getElementById('edit-software-catagory').value = catagory;
         document.getElementById('edit-software-detail').value = details;
         document.getElementById('edit-software-dev-name').value = developerName;
         document.getElementById('edit-software-price').value = subscriptionPrice;
+        document.getElementById('edit-software-link').value = link;
     }
 
     function checkNewSoftwareContent() {
@@ -192,10 +205,11 @@
         var details = document.getElementById('new-software-details').value;
         var developerName = document.getElementById('new-software-dev-name').value;
         var subscriptionPrice = document.getElementById('new-software-price').value;
+        var link = document.getElementById('new-software-link').value;
         var btn = document.getElementById('add-new-software');
 
         if (name.trim() && catagory.trim() && details.trim() &&
-            developerName.trim() && subscriptionPrice.trim()) {
+            developerName.trim() && subscriptionPrice.trim() && link.trim()) {
             btn.style.pointerEvents = 'all';
             btn.classList.add('btn-primary');
         } else {
@@ -210,10 +224,11 @@
         var details = document.getElementById('edit-software-detail').value;
         var developerName = document.getElementById('edit-software-dev-name').value;
         var subscriptionPrice = document.getElementById('edit-software-price').value;
+        var link = document.getElementById('edit-software-link').value;
         var btn = document.getElementById('edit-new-software');
 
         if (name.trim() && catagory.trim() && details.trim() &&
-            developerName.trim() && subscriptionPrice.trim()) {
+            developerName.trim() && subscriptionPrice.trim() && link.trim()) {
             btn.style.pointerEvents = 'all';
             btn.classList.add('btn-primary');
         } else {

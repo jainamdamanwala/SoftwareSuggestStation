@@ -29,6 +29,12 @@ var hbs = exphbs.create({
 		roundDecimal: function (value, options) {
 			var with2Decimals = value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
 			return with2Decimals;
+		},
+		ifIsZero: function (value, options) {
+			if (value === '0') {
+				return options.fn(this);
+			}
+			return options.inverse(this);
 		}
 	}
 });

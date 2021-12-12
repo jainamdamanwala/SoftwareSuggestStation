@@ -69,9 +69,9 @@ module.exports = function (passport) {
                         var newUser = new User();
 
                         if (!(req.body.firstName.trim() && req.body.lastName.trim() &&
-                             req.body.username.trim() && req.body.city.trim() &&
-                             req.body.country.trim() && req.body.state.trim() &&
-                             req.body.phone.trim() && req.body.role.trim())) {
+                            req.body.username.trim() && req.body.city.trim() &&
+                            req.body.country.trim() && req.body.state.trim() &&
+                            req.body.phone.trim() && req.body.role.trim())) {
                             return done(null, false, req.flash('signupMessage', 'Wohh! All fields are required.'));
                         }
 
@@ -81,6 +81,12 @@ module.exports = function (passport) {
 
                         if (isNaN(req.body.phone)) {
                             return done(null, false, req.flash('signupMessage', 'Wohh! Phone number should be a number'));
+                        } else if (req.body.phone.length != 10) {
+                            return done(null, false, req.flash('signupMessage', 'Wohh! Phone number should be of 10 digits'));
+                        }
+
+                        if (!validateEmail(email)) {
+                            return done(null, false, req.flash('signupMessage', 'Wohh! Email is invalid'));
                         }
 
                         newUser.local.firstName = req.body.firstName;
@@ -109,4 +115,12 @@ module.exports = function (passport) {
             }
         });
     }));
+};
+
+function validateEmail(email) {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
 };

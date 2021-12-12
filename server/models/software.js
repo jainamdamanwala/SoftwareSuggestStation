@@ -12,6 +12,7 @@ var softwareSchema = mongoose.Schema({
     }],
     developerName: {type: String, required: true},
     subscriptionPrice: {type: String, required: true},
+    link: {type: String, required: true}
 });
 
 // create the model for software and expose it to our app

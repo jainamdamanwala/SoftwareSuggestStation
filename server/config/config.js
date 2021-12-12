@@ -1,4 +1,4 @@
 // Database URL
 module.exports = {
-    'url' : 'mongodb://localhost/mvc-app'
+    'url' : 'mongodb://localhost/software-suggest'
 };
