@@ -20,7 +20,7 @@ git clone <this repo's http url>
 # install packeges used in this app.
 npm install
 
-# fill fake data in db
+# fill Demo data in database
 node tasks/seed.js
 
 # start the web server
@@ -30,14 +30,14 @@ npm start
 after starting web server, you can login of either of this account based on
 what functionalities you need to check
 
-normal user account
+user account
 ------------
-- email: rajdhanani@gmail.com
+- email: jainamdamanwala@gmail.com
 
-- password: raj@893
+- password: jainam@123
 
 vendor user account
 -------------
-- email: pgoti32080@stevens.edu
+- email: shubhamjiyani@gmail.com
 
-- password: ParthHir@893
+- password:shubham@123
