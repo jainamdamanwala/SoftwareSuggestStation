@@ -21,7 +21,7 @@ git clone <this repo's http url>
 npm install
 
 # fill Demo data in database
-node tasks/seed.js
+npm seed
 
 # start the web server
 npm start
